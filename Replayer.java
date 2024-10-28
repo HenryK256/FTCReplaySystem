@@ -38,9 +38,7 @@ public class Replayer {
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
 
-    public void init() {
         try {
             ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(Environment.getExternalStorageDirectory().getAbsolutePath() + "/auto_data.ser." + "blue")));
             mainArr = (ArrayList) ois.readObject();
