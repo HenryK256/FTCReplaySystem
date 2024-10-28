@@ -1,12 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.Environment;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class Recorder extends CommonOpMode {
+public abstract class Recorder extends LinearOpMode {
     private DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     private int start = 0;
     private int iterationTime = 100;
@@ -50,10 +55,10 @@ public class Recorder extends CommonOpMode {
         RFPosArr.add(rightFrontMotor.getCurrentPosition());
         LBPosArr.add(leftBackMotor.getCurrentPosition());
         RBPosArr.add(rightBackMotor.getCurrentPosition());
-        timeArr.add(System.currentTimeMillis() - start);
+        timeArr.add((int)System.currentTimeMillis() - start);
     }
     public void startTime() {
-        start = System.currentTimeMillis();
+        start = (int)System.currentTimeMillis();
     }
     private void end() {
         //String name = gamepad1.x ? "blue" : "red";

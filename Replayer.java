@@ -1,12 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.Environment;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-public class Replayer extends CommonOpMode {
+public abstract class Replayer extends LinearOpMode {
     private final double FACTOR_DIVISOR = 400; // This value will probably have to be tweaked
     private DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     private int index = 0, start = 0;
@@ -61,7 +66,7 @@ public class Replayer extends CommonOpMode {
     public void run() {
         if (index == mainArr.get(0).size()) requestOpModeStop();
 
-        start = System.currentTimeMillis();
+        start = (int) System.currentTimeMillis();
 
         double LFfactor = (LFPosArr.get(index) - leftFrontMotor.getCurrentPosition()) / FACTOR_DIVISOR;
         double RFfactor = (RFPosArr.get(index) - rightFrontMotor.getCurrentPosition()) / FACTOR_DIVISOR;
