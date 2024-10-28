@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-public abstract class Replayer extends LinearOpMode {
+public class Replayer extends LinearOpMode {
     private final double FACTOR_DIVISOR = 400; // This value will probably have to be tweaked
     private DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     private int index = 0, start = 0;
@@ -25,7 +25,7 @@ public abstract class Replayer extends LinearOpMode {
         LBPosArr = new ArrayList<>(),
         RBPosArr = new ArrayList<>();
     ArrayList<ArrayList> mainArr = new ArrayList<>();
-
+    public void runOpMode() {}
     public Replayer(DcMotor LF, DcMotor RF, DcMotor LB, DcMotor RB) {
         leftFrontMotor = LF;
         rightFrontMotor = RF;

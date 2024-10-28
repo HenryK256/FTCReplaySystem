@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public abstract class Recorder extends LinearOpMode {
+public class Recorder extends LinearOpMode {
     private DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     private int start = 0;
     private int iterationTime = 100;
@@ -27,6 +27,7 @@ public abstract class Recorder extends LinearOpMode {
         LBPosArr = new ArrayList<>(),
         RBPosArr = new ArrayList<>();
     private ArrayList<ArrayList> mainArr = new ArrayList<>();
+    public void runOpMode() {}
 
     public Recorder(DcMotor LF, DcMotor RF, DcMotor LB, DcMotor RB) {
         leftFrontMotor = LF;
