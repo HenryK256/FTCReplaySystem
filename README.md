@@ -1,7 +1,7 @@
 # FTCReplaySystem
 Record and replay movements for competitive robotics, specifically in FIRST Tech Challenge (FTC). Made for teams 23545 and 10243
 
-Install the Recorder.java and Replayer.java and place them in the same TeamCode file that the OpModes are written in.
+Download the Recorder.java and Replayer.java and place them in the same TeamCode file that the OpModes are written in.
 
 For this system to function, there are a few things to consider:
 
