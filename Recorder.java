@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Recorder extends CommonOpMode {
     private DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
+    private int start = 0;
     private int iterationTime = 100;
     private BufferedOutputStream bos;
     private ObjectOutputStream oos;
@@ -15,7 +16,8 @@ public class Recorder extends CommonOpMode {
         RFPowerArr = new ArrayList<>(),
         LBPowerArr = new ArrayList<>(),
         RBPowerArr = new ArrayList<>();
-    private ArrayList<Integer> LFPosArr = new ArrayList<>(),
+    private ArrayList<Integer> timeArr = new ArrayList<>(),
+        LFPosArr = new ArrayList<>(),
         RFPosArr = new ArrayList<>(),
         LBPosArr = new ArrayList<>(),
         RBPosArr = new ArrayList<>();
@@ -48,8 +50,11 @@ public class Recorder extends CommonOpMode {
         RFPosArr.add(rightFrontMotor.getCurrentPosition());
         LBPosArr.add(leftBackMotor.getCurrentPosition());
         RBPosArr.add(rightBackMotor.getCurrentPosition());
+        timeArr.add(System.currentTimeMillis() - start);
     }
-
+    public void startTime() {
+        start = System.currentTimeMillis();
+    }
     private void end() {
         //String name = gamepad1.x ? "blue" : "red";
         String name = "blue";
@@ -63,6 +68,7 @@ public class Recorder extends CommonOpMode {
         mainArr.add(LBPosArr);
         mainArr.add(RFPosArr);
         mainArr.add(RBPosArr);
+        mainArr.add(timeArr);
         try {
             bos = new BufferedOutputStream(new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath() + "/auto_data.ser." + name));
             oos = new ObjectOutputStream(bos);

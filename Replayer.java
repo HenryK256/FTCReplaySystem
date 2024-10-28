@@ -6,15 +6,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-public class Replayer {
+public class Replayer extends CommonOpMode {
     private final double FACTOR_DIVISOR = 400; // This value will probably have to be tweaked
     private DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
-    private int index = 0;
+    private int index = 0, start = 0;
     ArrayList<Double> LFPowerArr = new ArrayList<>(),
         RFPowerArr = new ArrayList<>(),
         LBPowerArr = new ArrayList<>(),
         RBPowerArr = new ArrayList<>();
-    ArrayList<Integer> LFPosArr = new ArrayList<>(),
+    ArrayList<Integer> timeArr = new ArrayList<>(),
+        LFPosArr = new ArrayList<>(),
         RFPosArr = new ArrayList<>(),
         LBPosArr = new ArrayList<>(),
         RBPosArr = new ArrayList<>();
@@ -54,10 +55,13 @@ public class Replayer {
         RFPosArr = mainArr.get(5);
         LBPosArr = mainArr.get(6);
         RBPosArr = mainArr.get(7);
+        timeArr = mainArr.get(8);
     }
 
     public void run() {
         if (index == mainArr.get(0).size()) requestOpModeStop();
+
+        start = System.currentTimeMillis();
 
         double LFfactor = (LFPosArr.get(index) - leftFrontMotor.getCurrentPosition()) / FACTOR_DIVISOR;
         double RFfactor = (RFPosArr.get(index) - rightFrontMotor.getCurrentPosition()) / FACTOR_DIVISOR;
@@ -73,6 +77,8 @@ public class Replayer {
         rightFrontMotor.setTargetPosition(RFPosArr.get(index));
         leftBackMotor.setTargetPosition(LBPosArr.get(index));
         rightBackMotor.setTargetPosition(RBPosArr.get(index));
+
+        while (System.currentTimeMillis() - start < timeArr.get(index)) {}
 
         index++;
     }
