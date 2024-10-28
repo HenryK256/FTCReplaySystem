@@ -10,10 +10,11 @@ Recorder
      Ex:
        ```
        Recorder recorder = new Recorder(LFmotor, RFmotor, LBmotor, RBmotor);
-  3. Use the run() method in **conjunction** with the manually controlled OpMode in the while loop contained in the CommonOpMode. While this is running, the robot can be driven around       and its movement will be recorded.
+  3. Use the run() and startTime() methods in **conjunction** with the manually controlled OpMode in the while loop contained in the CommonOpMode. The startTime() should be at the very top of the while loop and the run() should be at the very bottom. While this is running, the robot can be driven around and its movement will be recorded.
      Ex:
        ```
        while (opModeIsActive()) {
+         recorder.startTime();
          manualCode();
          recorder.run();
        }
@@ -25,7 +26,7 @@ Replayer
      Ex:
        ```
        Replayer replayer = new Replayer(LFmotor, RFmotor, LBmotor, RBmotor);
-  3. Similarly to Replayer, the run() method has to be looped the same way any other OpMode would.
+  3. Similarly to Replayer, the run() method has to be looped the same way any other OpMode would but should not run simultaneously with any other OpMode.
      Ex:
        ```
        while (opModeIsActive()) {
