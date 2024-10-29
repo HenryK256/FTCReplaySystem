@@ -41,7 +41,7 @@ Try to complete the starter's guide and ensure that all of the drive motors' enc
 ```
 Recorder.setAuxMotors(DcMotor ... motors)
 ```
-The above method is intended to receive a list of motors that are used beyond driving purposes such as an attachment. This method will eventually be deprecated, but is now used for efficiency. Ex:
+The above method is intended to receive a list of motors that are used beyond driving purposes such as an attachment. This method will eventually be deprecated but is now used for efficiency. Ex:
 ```
 Recorder recorder = new Recorder(LFmotor, RFmotor, LBmotor, RBmotor);
 recorder.setAuxMotors(leftLiftMotor, rightLiftMotor);
@@ -50,13 +50,13 @@ recorder.setAuxMotors(leftLiftMotor, rightLiftMotor);
 ```
 Recorder.setAuxServos(Servo ... servos)
 ```
-The above method is used in the same way as adding auxillary motors, but is instead used to add Servos that are used in attachments.
+The above method is used in the same way as adding auxillary motors but is instead used to add Servos that are used in attachments.
 
 ---
 ```
 Recorder.setIterationTime(double newTime)
 ```
-The above method is used to change the amount of time that each loop runs for in milliseconds. The default is 100ms and shouldn't really need to be changed. **This only matters in experimental mode**
+The above method is used to change the amount of time that each loop runs for in milliseconds. The default is 100ms and shouldn't need to be changed. **This only matters in experimental mode**
 
 ---
 ```
@@ -68,8 +68,8 @@ The above method is used to change the speed of the replay. By default this valu
 ```
 Replayer.setExperimentalMode(boolean eMode)
 ```
-This is where the magic happens. By default, experimentalMode is set to false, meaning the methods stating they are only available in experimental mode will not function. In order to enable features such as Replay Speed or iterationTime, experimentalMode must be set to true.
+This is where the magic happens. By default, experimentalMode is set to false, meaning the methods stating they are only available in experimental mode will not function. To enable features such as replaySpeed or iterationTime, experimentalMode must be set to true.
 
 Notes
 ---
-This software is still going to be heavily developed and is in its very early stages. Kinks and wrinkles need to be worked out over time that require effort and time from the developers of the project (only me right now). Take everything with a grain of salt.
+This software will still be heavily developed and in its very early stages. Kinks and wrinkles need to be worked out over time, requiring effort and time from the project's developers (only me right now). Take everything with a grain of salt.
