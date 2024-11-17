@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.ArrayList;
 
 public class Recorder extends Thread {
-    private int iterationTime = 20;
+    private int iterationTime = 10;
     private ArrayList<Integer> timeArr = new ArrayList<>();
     private ArrayList<ArrayList> mainArr = new ArrayList<>(),
             motorPowerArr = new ArrayList<>(),
@@ -22,30 +22,32 @@ public class Recorder extends Thread {
             motorPowerArr.add(new ArrayList<Double>());
             motorPosArr.add(new ArrayList<Integer>());
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            //motor.getConnectionInfo();
+            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
         for (Servo servo : servoList) {
             servoPosArr.add(new ArrayList<Double>());
         }
     }
     public void run() {
-        int start = (int)System.currentTimeMillis();
+        while (!Thread.currentThread().isInterrupted()) {
+            int start = (int)System.currentTimeMillis();
 
-        for (int i = 0; i < motorList.size(); i++) {
-            motorPowerArr.get(i).add(motorList.get(i).getCurrentPosition());
-            motorPosArr.get(i).add(motorList.get(i).getCurrentPosition());
-        }
-        for (int i = 0; i < servoList.size(); i++) {
+            for (int i = 0; i < motorList.size(); i++) {
+                motorPowerArr.get(i).add(motorList.get(i).getPower());
+                motorPosArr.get(i).add(motorList.get(i).getCurrentPosition());
+            }
+            for (int i = 0; i < servoList.size(); i++) {
             servoPosArr.get(i).add(servoList.get(i).getPosition());
-        }
+            }
 
-        try {
-            Thread.sleep(iterationTime - (System.currentTimeMillis() - start));
-        }
-        catch (Exception e) {
-        }
+            try {
+                Thread.sleep(iterationTime - (System.currentTimeMillis() - start));
+            }
+            catch (Exception e) {
+            }
 
-        timeArr.add((int)System.currentTimeMillis() - start);
+            timeArr.add((int)System.currentTimeMillis() - start);
+        }
     }
     public ArrayList<ArrayList> compileMainArr() {
         try {
@@ -65,6 +67,17 @@ public class Recorder extends Thread {
         mainArr.add(motorPosArr);
         mainArr.add(servoPosArr);
         mainArr.add(timeArr);
+
+        ArrayList<String> motorInfos = new ArrayList<>(), servoInfos = new ArrayList<>();
+        for (DcMotor motor : motorList) {
+            motorInfos.add(motor.getConnectionInfo());
+        }
+        for (Servo servo : servoList) {
+            servoInfos.add(servo.getConnectionInfo());
+        }
+
+        mainArr.add(motorInfos);
+        mainArr.add(servoInfos);
 
         return mainArr;
     }

@@ -35,11 +35,16 @@ public class RecordOpMode extends ManualControlOpMode {
         motorList.addAll(hardwareMap.getAll(DcMotor.class));
         servoList.addAll(hardwareMap.getAll(Servo.class));
 
+        telemetry.addData("Motor List", motorList.toString());
+        telemetry.update();
+
         subRecorder = new Recorder(motorList, servoList);
         recorder = new Thread(subRecorder);
         recorder.start();
     }
     public void saveWithTitle(String t) {
+        recorder.interrupt();
+
         title = t;
 
         telemetry.addLine("Programming in [" + title + "] slot...");
@@ -52,13 +57,13 @@ public class RecordOpMode extends ManualControlOpMode {
             oos = new ObjectOutputStream(bos);
             oos.writeObject(subRecorder.compileMainArr());
             oos.close();
-            recorder.interrupt();
         } catch (IOException e) {
             telemetry.addLine(e.getStackTrace().toString());
         }
 
         requestOpModeStop();
     }
+    @Override
     public void runner() {
         super.runner();
 

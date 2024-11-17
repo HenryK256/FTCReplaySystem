@@ -12,18 +12,19 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public abstract class ReplayOpMode extends CommonOpMode {
-    private final double FACTOR_DIVISOR = 200; // This value will probably have to be tweaked
+    private final double FACTOR_DIVISOR = 400; // This value will probably have to be tweaked
     private double replaySpeed = 1; // Change this value for how quickly you want to replay the recorded code
     // It has a limit and should not be too high
     private int index = 0, start = 0;
     ArrayList<Integer> timeArr;
+    ArrayList<String> motorInfos, servoInfos;
     ArrayList<ArrayList> mainArr = new ArrayList<>(),
         motorPowerArr,
         motorPosArr,
         servoPosArr;
 
-    ArrayList<DcMotor> motorList;
-    ArrayList<Servo> servoList;
+    ArrayList<DcMotor> motorList = new ArrayList<>();
+    ArrayList<Servo> servoList = new ArrayList<>();
     public void initialize() {
         try {
             ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(Environment.getExternalStorageDirectory().getAbsolutePath() + "/auto_data.ser." + title())));
@@ -33,12 +34,28 @@ public abstract class ReplayOpMode extends CommonOpMode {
             e.printStackTrace();
         }
 
-        motorList = (ArrayList) hardwareMap.getAll(DcMotor.class);
-        servoList = (ArrayList) hardwareMap.getAll(Servo.class);
         motorPowerArr = mainArr.get(0);
         motorPosArr = mainArr.get(1);
         servoPosArr = mainArr.get(2);
         timeArr = mainArr.get(3);
+        motorInfos = mainArr.get(4);
+        servoInfos = mainArr.get(5);
+
+        for (String info : motorInfos) {
+            for (DcMotor motor : hardwareMap.getAll(DcMotor.class)) {
+                if (motor.getConnectionInfo().equals(info) && motor.getDeviceName().equals("Motor")) {
+                    motorList.add(motor);
+                }
+            }
+        }
+
+        for (String info : servoInfos) {
+            for (Servo servo : hardwareMap.getAll(Servo.class)) {
+                if (servo.getConnectionInfo().equals(info) && servo.getDeviceName().equals("Servo")) {
+                    servoList.add(servo);
+                }
+            }
+        }
 
         for (DcMotor motor : motorList) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -47,7 +64,7 @@ public abstract class ReplayOpMode extends CommonOpMode {
         }
     }
     public void runner() {
-        if (index == mainArr.get(0).size()) requestOpModeStop();
+        if (index == motorPowerArr.get(0).size()) requestOpModeStop();
         else {
             start = (int) System.currentTimeMillis();
 
