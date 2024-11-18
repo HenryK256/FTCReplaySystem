@@ -21,8 +21,9 @@ public class Recorder extends Thread {
         for (DcMotor motor : motorList) {
             motorPowerArr.add(new ArrayList<Double>());
             motorPosArr.add(new ArrayList<Integer>());
+            DcMotor.RunMode prevMode = motor.getMode();
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor.setMode(prevMode);
         }
         for (Servo servo : servoList) {
             servoPosArr.add(new ArrayList<Double>());
