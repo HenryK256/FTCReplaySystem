@@ -29,18 +29,14 @@ public class RecordOpMode extends ManualControlOpMode {
     private ArrayList<DcMotor> motorList = new ArrayList<>();
     private ArrayList<Servo> servoList = new ArrayList<>();
     private String title = "";
+    private boolean firstTime = true;
     Thread recorder;
     Recorder subRecorder;
     public void initialize() {
         motorList.addAll(hardwareMap.getAll(DcMotor.class));
         servoList.addAll(hardwareMap.getAll(Servo.class));
-
-        telemetry.addData("Motor List", motorList.toString());
-        telemetry.update();
-
         subRecorder = new Recorder(motorList, servoList);
         recorder = new Thread(subRecorder);
-        recorder.start();
     }
     public void saveWithTitle(String t) {
         recorder.interrupt();
@@ -65,6 +61,12 @@ public class RecordOpMode extends ManualControlOpMode {
     }
     @Override
     public void runner() {
+        if (firstTime) {
+            recorder.start();
+
+            firstTime = false;
+        }
+        
         super.runner();
 
         if (gamepad1.share && gamepad1.x) {
